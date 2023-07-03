@@ -7,6 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import { ErrorMessage } from '../../Components/ErrorMessage';
 import { LoadingIndicator } from '../../Components/LoadingIndicator';
 import { createIntake, getWaterIntake, Goal, WaterIntake } from '../../lib/api';
+import { useRefreshOnFocus } from '../../hooks/useRefreshOnFocus';
+import { useRefreshByUser } from '../../hooks/useRefreshByUser';
 
 
 
@@ -22,6 +24,9 @@ const CreateWaterIntake = ({ navigation }) => {
     ['getWaterIntake'],
     () => getWaterIntake("1")
   )
+
+  const { isRefetchingByUser, refetchByUser } = useRefreshByUser(refetch)
+  useRefreshOnFocus(refetch)
 
   useEffect(() => {
     if (data) {
@@ -101,6 +106,7 @@ const CreateWaterIntake = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => {
             createIntake(Number(amount), "ml")
+            refetchByUser()
           }}
           style={{
             height: 50,

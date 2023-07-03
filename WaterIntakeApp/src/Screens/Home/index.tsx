@@ -16,7 +16,7 @@ const Home = ({ navigation }) => {
     const [totalIntake, setTotalIntake] = useState(0)
     const [goal, setGoal] = useState({ Goal: 0, GoalType: 1 })
     const [dataToList, setdataToList] = useState([])
-    const [modalVisible, setModalVisible] = useState(false);
+
     const screenWidth = Dimensions.get("window").width;
 
     const { isLoading, error, data, refetch } = useQuery<{ WaterIntake: WaterIntake[], Goal: Goal }, Error>(
@@ -63,7 +63,9 @@ const Home = ({ navigation }) => {
         return <ListItem
             item={item}
             updateIntake={() => updateIntake(item.id, 12, "ml")}
-            deleteIntake={() => deleteIntake(item.id)} />
+            deleteIntake={() => deleteIntake(item.id)}
+            onRefresh={refetchByUser}
+            />
     }
 
 
@@ -105,25 +107,24 @@ const Home = ({ navigation }) => {
 
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <View style={{
-                    width: '90%',
+                    width: '95%',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     borderTopWidth: 1,
-                    paddingHorizontal: 25,
+                    paddingHorizontal: 20,
                     paddingVertical: 10
                 }}>
                     <TouchableOpacity
                         onPress={() => {
                             setGoal({ Goal: data.Goal?.dailyGoal, GoalType: 1 })
-
                         }}
                         style={{
                             height: 50,
-                            width: 75,
+                            width: 90,
                             borderRadius: 25,
-                            borderWidth: 1,
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            backgroundColor:goal.GoalType==1?`rgba(0,206,209,0.7)`:`rgba(0,206,209,0.2)`
                         }}>
                         <Text style={{ fontSize: 16 }}>Günlük</Text>
                     </TouchableOpacity>
@@ -133,11 +134,11 @@ const Home = ({ navigation }) => {
                         }}
                         style={{
                             height: 50,
-                            width: 75,
+                            width: 90,
                             borderRadius: 25,
-                            borderWidth: 1,
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            backgroundColor:goal.GoalType==7?`rgba(0,206,209,0.7)`:`rgba(0,206,209,0.2)`
                         }}>
                         <Text style={{ fontSize: 16 }}>Haftalık</Text>
                     </TouchableOpacity>
@@ -147,11 +148,11 @@ const Home = ({ navigation }) => {
                         }}
                         style={{
                             height: 50,
-                            width: 75,
+                            width: 90,
                             borderRadius: 25,
-                            borderWidth: 1,
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            backgroundColor:goal.GoalType==30?`rgba(0,206,209,0.7)`:`rgba(0,206,209,0.2)`
                         }}>
                         <Text style={{ fontSize: 16 }}>Aylık</Text>
                     </TouchableOpacity>
@@ -187,17 +188,6 @@ const Home = ({ navigation }) => {
                     />
                 }
             ></FlatList>
-
-            <Modal visible={modalVisible} animationType="slide" transparent>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(256, 256, 256,0.1)' }}>
-                    <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 8 }}>
-                        <Text style={{ fontSize: 18, marginBottom: 10 }}>Uyarı</Text>
-                        <Text>Bu bir küçük modal örneğidir.</Text>
-                        <Button title="Güncelle" onPress={() => setModalVisible(false)} />
-                        <Button title="Sil" onPress={() => setModalVisible(false)} />
-                    </View>
-                </View>
-            </Modal>
         </View>
     )
 }

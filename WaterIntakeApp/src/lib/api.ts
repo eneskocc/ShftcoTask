@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Alert } from 'react-native';
 import { apiUrl } from '../config';
 
 export type WaterIntake = {
@@ -69,7 +70,7 @@ export const updateIntake = async (id: string, amount: number, unit: string) => 
           createdAt: today
       });
       const data = await res.data;
-
+console.log(res.data,amount)
   } catch (error) {
 
       console.error(error);
@@ -80,9 +81,10 @@ export const deleteIntake = async (id) => {
   try {
       const res = await axios.delete(apiUrl + "intake/" + id);
       const data = await  getWaterIntake("1");
-     
+      
+   //  Alert.alert("Uyarı",res.data.)
   } catch (error) {
-
+    Alert.alert("Uyarı",error)
       console.error(error);
   }
 };

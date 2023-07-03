@@ -1,16 +1,18 @@
-import * as React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, TouchableOpacity, Modal, Button } from 'react-native'
 import { WaterIntake } from '../lib/api'
+import CustomModal from './CustomModal'
 
 
 type Props = {
   item: WaterIntake
 }
 
-export function ListItem({ item, deleteIntake, updateIntake }) {
+export function ListItem({ item, deleteIntake, updateIntake, onRefresh }) {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <TouchableOpacity
-    onPress={()=>updateIntake(item.id)}
+      onPress={() => setModalVisible(true)}
       style={{
         width: '100%',
         paddingVertical: 10,
@@ -22,21 +24,15 @@ export function ListItem({ item, deleteIntake, updateIntake }) {
           <Text style={{ fontSize: 12 }}>{item.amount} {item.unit}</Text>
         </View>
         <View><Text style={{ fontSize: 12 }}>{item.createdAt && item.createdAt.toString().split('T')[0]}</Text></View>
-        <TouchableOpacity
-          onPress={() => deleteIntake(item.id)}
-          style={{
-            width: 20,
-            height: 20,
-            borderRadius: 20,
-            borderWidth: 1,
-            marginRight: 16,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderColor: 'red'
-          }}>
-          <Text style={{ fontSize: 16, color: 'red' }}>X</Text>
-        </TouchableOpacity>
+
       </View>
+      <CustomModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        deleteIntake={() => deleteIntake(item.id)}
+        updateIntake={updateIntake}
+        id={item.id}
+        onRefresh={onRefresh} />
     </TouchableOpacity>
   )
 }
