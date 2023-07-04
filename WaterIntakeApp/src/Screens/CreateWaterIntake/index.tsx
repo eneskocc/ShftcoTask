@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, TouchableOpacity, FlatList, RefreshControl, Modal, Button, TextInput } from 'react-native'
+import { View, Text, Dimensions, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState, useCallback, useEffect } from 'react'
 import {
   ProgressChart,
@@ -107,6 +107,7 @@ const CreateWaterIntake = ({ navigation }) => {
           onPress={() => {
             createIntake(Number(amount), "ml")
             refetchByUser()
+            navigation.goBack()
           }}
           style={{
             height: 50,

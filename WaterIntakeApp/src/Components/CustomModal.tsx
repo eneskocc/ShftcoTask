@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Modal, Button, TextInput } from 'react-native'
 import React, { useState } from 'react'
 
-const CustomModal = ({ id, setModalVisible, modalVisible, deleteIntake, updateIntake, onRefresh }) => {
+const CustomModal = ({ id, setModalVisible, modalVisible, deleteIntake, updateIntake, setOnRefresh, onRefresh }) => {
   const [UpdateVisible, setUpdateVisible] = useState(false);
   const [amount, setAmount] = useState('');
   return (
@@ -15,9 +15,10 @@ const CustomModal = ({ id, setModalVisible, modalVisible, deleteIntake, updateIn
               <Button title="Güncelle" onPress={() => setUpdateVisible(true)} />
               <Button title="Sil" onPress={() => {
                 deleteIntake()
-                onRefresh()
-                setModalVisible(false)
+                setAmount("")
+                setOnRefresh(!onRefresh)
                 setUpdateVisible(false)
+                setModalVisible(false)
               }} />
             </View>
             :
@@ -31,10 +32,12 @@ const CustomModal = ({ id, setModalVisible, modalVisible, deleteIntake, updateIn
               />
               <View>
                 <Button title="Güncelle" onPress={() => {
-                  updateIntake(id, amount, "ml")
-                  onRefresh()
-                  setModalVisible(false)
+                  updateIntake(id, Number(amount), "ml")
+                  setAmount("")
+                  setOnRefresh(!onRefresh)
                   setUpdateVisible(false)
+                  setModalVisible(false)
+
                 }} />
                 <Button title="Vazgeç" onPress={() => setModalVisible(false)} />
               </View>

@@ -46,45 +46,40 @@ export async function getWaterIntakeID(id: string) {
 
 export const createIntake = async (amount: number, unit: string) => {
   try {
-      const today = new Date()
-      const res = await axios.post(apiUrl + "intake/", {
-          amount: amount,
-          unit: unit,
-          createdAt: today
-      });
-      const data = await res.data;
-      getWaterIntake("1")
+    const today = new Date()
+    const res = await axios.post(apiUrl + "intake/", {
+      amount: amount,
+      unit: unit,
+      createdAt: today
+    });
+    Alert.alert("Başarılı")
   } catch (error) {
 
-      console.error(error);
+    console.error(error);
   }
 };
 
 
 export const updateIntake = async (id: string, amount: number, unit: string) => {
   try {
-      const today = new Date()
-      const res = await axios.put(apiUrl + "intake/" + id, {
-          amount: amount,
-          unit: unit,
-          createdAt: today
-      });
-      const data = await res.data;
-console.log(res.data,amount)
+    const today = new Date()
+    const res = await axios.put(apiUrl + "intake/" + id, {
+      amount: amount,
+      unit: unit,
+      createdAt: today
+    });
+    Alert.alert("Başarılı")
   } catch (error) {
-
-      console.error(error);
+    Alert.alert("Uyarı", error)
+    console.error(error);
   }
 };
 
 export const deleteIntake = async (id) => {
   try {
-      const res = await axios.delete(apiUrl + "intake/" + id);
-      const data = await  getWaterIntake("1");
-      
-   //  Alert.alert("Uyarı",res.data.)
+    const res = await axios.delete(apiUrl + "intake/" + id);
   } catch (error) {
-    Alert.alert("Uyarı",error)
-      console.error(error);
+    Alert.alert("Uyarı", error)
+    console.error(error);
   }
 };

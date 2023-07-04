@@ -16,13 +16,17 @@ const Home = ({ navigation }) => {
     const [totalIntake, setTotalIntake] = useState(0)
     const [goal, setGoal] = useState({ Goal: 0, GoalType: 1 })
     const [dataToList, setdataToList] = useState([])
-
+    const [onRefresh, setOnRefresh] = useState(false)
     const screenWidth = Dimensions.get("window").width;
 
     const { isLoading, error, data, refetch } = useQuery<{ WaterIntake: WaterIntake[], Goal: Goal }, Error>(
         ['getWaterIntake'],
         () => getWaterIntake("1")
     )
+
+    useEffect(() => {
+        refetch()
+    }, [onRefresh])
 
     useEffect(() => {
         if (data) {
@@ -62,9 +66,10 @@ const Home = ({ navigation }) => {
 
         return <ListItem
             item={item}
-            updateIntake={() => updateIntake(item.id, 12, "ml")}
+            updateIntake={updateIntake}
             deleteIntake={() => deleteIntake(item.id)}
-            onRefresh={refetchByUser}
+            setOnRefresh={setOnRefresh}
+            onRefresh={onRefresh}
             />
     }
 
@@ -176,6 +181,8 @@ const Home = ({ navigation }) => {
                 </TouchableOpacity>
 
             </View>
+
+            
             <FlatList
                 style={{ flex: 2, width: '90%' }}
                 data={dataToList}

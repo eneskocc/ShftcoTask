@@ -8,7 +8,7 @@ type Props = {
   item: WaterIntake
 }
 
-export function ListItem({ item, deleteIntake, updateIntake, onRefresh }) {
+export function ListItem({ item, deleteIntake, updateIntake, onRefresh ,setOnRefresh}) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <TouchableOpacity
@@ -32,7 +32,9 @@ export function ListItem({ item, deleteIntake, updateIntake, onRefresh }) {
         deleteIntake={() => deleteIntake(item.id)}
         updateIntake={updateIntake}
         id={item.id}
-        onRefresh={onRefresh} />
+        onRefresh={onRefresh}
+        setOnRefresh={setOnRefresh}
+         />
     </TouchableOpacity>
   )
 }
